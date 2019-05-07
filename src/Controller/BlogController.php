@@ -28,7 +28,7 @@ class BlogController extends AbstractController
      */
     public function show(string $slug)
     {
-
-            return $this->render('Blog/show.html.twig', ['slug' => $slug]);
+            $cleanSlug = ucwords(trim(str_replace('-',' ',$slug)));
+            return $this->render('Blog/show.html.twig', ['slug' => $cleanSlug]);
     }
 }
