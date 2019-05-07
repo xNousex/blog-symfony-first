@@ -18,4 +18,17 @@ class BlogController extends AbstractController
             '<html><body>Blog Index</body></html>'
         );
     }
+
+    /**
+     * @Route("/blog/show/{slug}",
+     *          methods={"GET"},
+     *          requirements={"slug"="[a-z0-9\-]+"},
+     *          defaults={"slug"="article-sans-titre"},
+     *          name="blog_show")
+     */
+    public function show(string $slug)
+    {
+
+            return $this->render('Blog/show.html.twig', ['slug' => $slug]);
+    }
 }
