@@ -2,7 +2,7 @@
 // src/Controller/BlogController.php
 namespace App\Controller;
 
-
+use App\Entity\Article;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,8 +14,19 @@ class BlogController extends AbstractController
      */
     public function index()
     {
-        return new Response(
-            '<html><body>Blog Index</body></html>'
+        $articles = $this->getDoctrine()
+            ->getRepository(Article::class)
+            ->findAll();
+
+        if(!$articles) {
+            throw $this->createNotFoundException(
+                'No article found in articl\'s table'
+            );
+        }
+
+        return $this->render(
+            'blog/index.html.twig',
+            ['articles' => $articles]
         );
     }
 
