@@ -39,7 +39,29 @@ class BlogController extends AbstractController
      */
     public function show(string $slug)
     {
-            $cleanSlug = ucwords(trim(str_replace('-',' ',$slug)));
-            return $this->render('Blog/show.html.twig', ['slug' => $cleanSlug]);
+        if (!$slug) {
+            throw $this
+                ->createNotFoundException('No slug has been sent to find an article in article\'s table.');
+        }
+
+        $cleanSlug = ucwords(trim(str_replace('-',' ',$slug)));
+
+        $article = $this->getDoctrine()
+            ->getRepository(Article::class)
+            ->findOneBy(['title' => mb_strtolower($cleanSlug)]);
+
+        if (!$article) {
+            throw $this->createNotFoundException(
+                'No article with '.$cleanSlug.' title, found in article\'s table.'
+            );
+        }
+
+        return $this->render(
+            'blog/show.html.twig',
+            [
+                'article' => $article,
+                'slug' => $cleanSlug,
+            ]
+        );
     }
 }
