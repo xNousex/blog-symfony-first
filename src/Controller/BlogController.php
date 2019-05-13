@@ -3,12 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Category;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class BlogController extends AbstractController
 {
+
+    const limitResults = 3;
+
     /**
      * @Route("/blog", name="blog_index")
      */
@@ -63,5 +67,36 @@ class BlogController extends AbstractController
                 'slug' => $cleanSlug,
             ]
         );
+    }
+
+    /**
+     * @Route("/blog/category/{categoryName}",
+     *          methods={"GET"},
+     *          name="show_category")
+     */
+    public function showByCategory(string $categoryName) : Response
+    {
+
+        if (!$categoryName) {
+            throw $this
+                ->createNotFoundException('No category\'s name has been sent to find articles in article\'s table.');
+        }
+
+        $category = $this->getDoctrine()
+            ->getRepository(Category::class)
+            ->findOneByName($categoryName);
+
+        $articles = $this->getDoctrine()
+            ->getRepository(Article::class)
+            ->findByCategory($category,['id' => 'DESC'],self::limitResults);
+
+        return $this->render(
+            'blog/category.html.twig',
+            [
+                'articles' => $articles,
+                'category' => $category,
+            ]
+        );
+
     }
 }
