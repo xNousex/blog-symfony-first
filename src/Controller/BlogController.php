@@ -69,12 +69,12 @@ class BlogController extends AbstractController
         );
     }
 
-    /**
+/*    /**
      * @Route("/blog/category/{categoryName}",
      *          methods={"GET"},
      *          name="show_category")
      */
-    public function showByCategory(string $categoryName) : Response
+ /*   public function showByCategory(string $categoryName) : Response
     {
 
         if (!$categoryName) {
@@ -98,5 +98,34 @@ class BlogController extends AbstractController
             ]
         );
 
-    }
+    }*/
+
+    /**
+     * @Route("/blog/category/{categoryName}",
+     *          methods={"GET"},
+     *          name="show_category")
+     */
+     public function showByCategory(string $categoryName) : Response
+       {
+
+           if (!$categoryName) {
+               throw $this
+                   ->createNotFoundException('No category\'s name has been sent to find articles in article\'s table.');
+           }
+
+           $category = $this->getDoctrine()
+               ->getRepository(Category::class)
+               ->findOneByName($categoryName);
+
+           $articles = $category->getArticles();
+
+           return $this->render(
+               'blog/category.html.twig',
+               [
+                   'articles' => $articles,
+                   'category' => $category,
+               ]
+           );
+
+       }
 }
