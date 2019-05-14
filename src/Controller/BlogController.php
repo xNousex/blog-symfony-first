@@ -54,6 +54,8 @@ class BlogController extends AbstractController
             ->getRepository(Article::class)
             ->findOneBy(['title' => mb_strtolower($cleanSlug)]);
 
+        $category = $article->getCategory();
+
         if (!$article) {
             throw $this->createNotFoundException(
                 'No article with '.$cleanSlug.' title, found in article\'s table.'
@@ -64,7 +66,7 @@ class BlogController extends AbstractController
             'blog/show.html.twig',
             [
                 'article' => $article,
-                'slug' => $cleanSlug,
+                'category' => $category,
             ]
         );
     }
