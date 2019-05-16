@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gérer les catégories{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <h1>Gérer les catégories d'articles ✅</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">Nom</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for category in categories %}
+        <tr>
+            <th scope="row">{{ category.id }}</th>
+            <td>{{ category.name }}</td>
+        </tr>
+       {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
