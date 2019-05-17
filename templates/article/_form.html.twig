@@ -1,5 +1,47 @@
-{{ form_start(form) }}
-{{ form_widget(form) }}
-
-<button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<div class="container-fluid form-group">
+    {{ form_start(form) }}
+    {#    {{ form_widget(form) }}#}
+    <div class="m-2">
+        <div class="form-errors">
+            {{ form_errors(form) }}
+        </div>
+            <div class="my-4">
+                <div class="row">
+                    <div class="col-md-4">
+                        {{ form_label(form.title) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        {{ form_widget(form.title) }}
+                    </div>
+                </div>
+            </div>
+            <div class="my-4">
+                <div class="row">
+                    <div class="col-md-4">
+                        {{ form_label(form.content) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        {{ form_widget(form.content) }}
+                    </div>
+                </div>
+            </div>
+        <div class="my-4">
+                <div class="row">
+                    <div class="col-md-2 my-auto">
+                        {{ form_label(form.category) }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form_widget(form.category) }}
+                    </div>
+            </div>
+            <div class="mt-4">
+                <div class="row">
+                    <button class="btn btn-info w-50 mx-auto">{{ button_label|default('Ajouter') }}</button>
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
