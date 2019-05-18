@@ -21,7 +21,7 @@ class TagController extends AbstractController
     }
 
     /**
-     * @Route("/tag", name="tag")
+     * @Route("/tag", name="tag_index")
      */
     public function index()
     {
@@ -33,7 +33,7 @@ class TagController extends AbstractController
     }
 
     /**
-     * @Route("/tag/{name}", name="tag")
+     * @Route("/tag/{name}", name="tag_show")
      * @param Tag $tag
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -44,12 +44,9 @@ class TagController extends AbstractController
                 ->createNotFoundException('No tag has been sent to find a category in article\'s table.');
         }
 
-        $articles = $tag->getArticles();
-
         return $this->render('tag/show.html.twig', [
             'controller_name' => 'TagController',
             'tag' => $tag,
-            'articles' => $articles,
         ]);
     }
 }
