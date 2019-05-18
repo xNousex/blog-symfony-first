@@ -11,6 +11,13 @@
                 <h4 class="card-title">{{ article.title }}</h4>
                 <p class="card-text">{{ article.content }}</p>
             </div>
+            <div class="card-footer">
+                {% for tag in article.tags %}
+                    <a href="{{ path('tag_show', {'name': tag.name}) }}" class="badge badge-pill badge-warning">#{{ tag.name }}</a>
+                {% else %}
+                    <span class="badge badge-pill badge-danger">No tags</span>
+                {% endfor %}
+            </div>
         </div>
 
 
