@@ -3,28 +3,31 @@
 {% block title %}Article{% endblock %}
 
 {% block body %}
-    <h1>Article</h1>
+    <h1 class="text-center m-3">Article</h1>
+    <div class="container  p-0">
+        <div class="card text-white bg-secondary mb-3">
+            <div class="card-header">{{ article.category.name }}</div>
+            <div class="card-body">
+                <h4 class="card-title">{{ article.title }}</h4>
+                <p class="card-text">{{ article.content }}</p>
+            </div>
+        </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ article.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ article.title }}</td>
-            </tr>
-            <tr>
-                <th>Content</th>
-                <td>{{ article.content }}</td>
-            </tr>
-        </tbody>
-    </table>
 
-    <a href="{{ path('article_index') }}">back to list</a>
+        <div class="row my-2 justify-content-center">
+            <div class="col-md-4 text-center">
+                <a class="btn btn-info w-50" href="{{ path('article_edit', {'id': article.id}) }}">Modifier</a>
+            </div>
+            <div class="col-md-4 text-center">
+                {{ include('article/_delete_form.html.twig') }}
+            </div>
+            <a href="{{ path('article_edit', {'id': article.id}) }}">edit</a>
+        </div>
 
-    <a href="{{ path('article_edit', {'id': article.id}) }}">edit</a>
+        <div class="row my-4 justify-content-start">
+            <a class="btn btn-success w-20" href="{{ path('article_index') }}">Retour à la liste des articles</a>
+        </div>
 
-    {{ include('article/_delete_form.html.twig') }}
+    </div>
+
 {% endblock %}
