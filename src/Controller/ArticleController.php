@@ -32,7 +32,7 @@ class ArticleController extends AbstractController
      * @param Slugify $slugify
      * @return Response
      */
-    public function new(Request $request, Slugify $slugify): Response
+    public function new(Request $request, Slugify $slugify, \Swift_Mailer $mailer): Response
     {
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
@@ -44,6 +44,15 @@ class ArticleController extends AbstractController
             $article->setSlug($slug);
             $entityManager->persist($article);
             $entityManager->flush();
+
+            $message = (new \Swift_Message('Un nouvel article publié sur le Blog 2.0 !'))
+                ->setFrom($this->getParameter( 'mailer_from'))
+                ->setTo('userBlog@gmail.com')
+                ->setBody( $this->renderView('article/email/notification.html.twig', [
+                    'article' => $article,
+                ]
+                ), 'text/html');
+            $mailer->send($message);
 
             return $this->redirectToRoute('article_index');
         }
@@ -97,7 +106,7 @@ class ArticleController extends AbstractController
      */
     public function delete(Request $request, Article $article): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $article->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($article);
             $entityManager->flush();

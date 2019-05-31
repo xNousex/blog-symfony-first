@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Newsletter Blog 2.0</title>
+</head>
+<body>
+<h1>Y a du nouveau sur notre Blog!!</h1>
+
+<h2>{{ article.category.name }}</h2>
+<h3>
+{% for tag in article.tags %}
+    #{{ tag.name }}
+{% endfor %}
+</h3>
+<hr/>
+<h2>{{ article.title | capitalize}}</h2>
+<hr/>
+<p>{{ article.content }}</p>
+<a href="http://127.0.0.1:8001/article/{{ article.id }}">Lire ...</a>
+</body>
+</html>
