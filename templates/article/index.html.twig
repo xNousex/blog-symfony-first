@@ -15,6 +15,7 @@
                 <th>Catégorie</th>
                 <th>Titre</th>
                 <th>Description</th>
+                <th>Auteur</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -25,6 +26,7 @@
                 <td>{{ article.category.name }}</td>
                 <td>{{ article.title }}</td>
                 <td>{{ article.content }}</td>
+                <td>{{ article.author.email }}</td>
                 <td>
                     <a class="btn btn-primary btn-sm w-100 m-1" href="{{ path('article_show', {'id': article.id}) }}">Voir ...</a>
                     <a class="btn btn-info btn-sm w-100 m-1" href="{{ path('article_edit', {'id': article.id}) }}">Modifier </a>
