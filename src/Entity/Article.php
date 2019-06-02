@@ -23,14 +23,16 @@ class Article
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Ce champ ne peut pas être vide")
+     * @Assert\NotBlank(message="Le titre ne peut pas être vide")
      * @Assert\Length(max="255",maxMessage="La catégorie saisie {{ value }} est trop longue, {{ limit }} caractères maximum")
      *
      */
     private $title;
 
     /**
+     * @Assert\NotBlank(message="Le contenu ne peut pas être vide")
      * @ORM\Column(type="text")
+     * @Assert\Regex("/^((?!digital).)*$/", message="en français, il faut dire numérique")
      */
     private $content;
 
