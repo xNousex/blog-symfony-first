@@ -30,14 +30,27 @@ class ArticleRepository extends ServiceEntityRepository
         return $qb->execute();
     }
 
+    public function findAllWithCategoriesAndTags()
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->innerJoin('a.category', 'c' )
+            ->addSelect('c')
+            ->leftJoin('a.tags', 't' )
+            ->addSelect('t')
+            ->getQuery();
 
+        return $qb->execute();
+    }
+
+
+/*
     public function findAllWithCategoriesAndTags()
     {
         $em = $this->getEntityManager();
         $query = $em->createQuery('SELECT a, c, t FROM App\Entity\Article a INNER JOIN a.category c INNER JOIN a.tags t');
 
         return $query->execute();
-    }
+    }*/
 
     // /**
     //  * @return Article[] Returns an array of Article objects
