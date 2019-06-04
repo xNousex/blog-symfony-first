@@ -6,7 +6,12 @@ use App\Repository\TagRepository;
 use App\Entity\Tag;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+/**
+ * Class TagController
+ * @package App\Controller
+ * @IsGranted("ROLE_ADMIN")
+ */
 class TagController extends AbstractController
 {
     /**

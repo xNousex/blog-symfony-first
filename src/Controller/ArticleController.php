@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 /**
  * @Route("/article")
  */
@@ -81,9 +81,14 @@ class ArticleController extends AbstractController
      * @param Article $article
      * @param Slugify $slugify
      * @return Response
+     * @IsGranted("ROLE_AUTHOR")
      */
     public function edit(Request $request, Article $article, Slugify $slugify): Response
     {
+        if ($article->getAuthor() != $this->getUser() &&  !($this->isGranted("ROLE_ADMIN"))) {
+                 throw  $this->createAccessDeniedException() ;
+        };
+
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
