@@ -64,10 +64,7 @@ class CategoryController extends AbstractController
             $entityManager->persist($task);
             $entityManager->flush();
 
-            $session->getFlashBag()->add(
-                'success',
-                'Catégorie ajoutée avec succès'
-            );
+            $this->addFlash('success', 'Nouvelle catégorie bien ajoutée.');
 
             return $this->redirectToRoute('category_admin_add');
         }
