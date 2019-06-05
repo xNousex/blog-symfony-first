@@ -9,9 +9,19 @@
     {% endblock %}
 </head>
 <body>
+
 <header>
     {% include 'common/navbar.html.twig' %}
 </header>
+{% for category, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-{{ category }} w-50 mx-auto text-center alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+        </div>
+    {% endfor %}
+{% endfor %}
 {% block body %}{% endblock %}
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
