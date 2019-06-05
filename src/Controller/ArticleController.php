@@ -47,6 +47,8 @@ class ArticleController extends AbstractController
             $entityManager->persist($article);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Nouvel article bien ajouté.');
+
             $message = (new \Swift_Message('Un nouvel article publié sur le Blog 2.0 !'))
                 ->setFrom($this->getParameter( 'mailer_from'))
                 ->setTo('userBlog@gmail.com')
@@ -96,6 +98,7 @@ class ArticleController extends AbstractController
             $slug = $slugify->generate($article->getTitle());
             $article->setSlug($slug);
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', 'Article correctement modifié.');
 
             return $this->redirectToRoute('article_index', [
                 'id' => $article->getId(),
@@ -117,6 +120,8 @@ class ArticleController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($article);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Article correctement suppimé.');
         }
 
         return $this->redirectToRoute('article_index');
