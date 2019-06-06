@@ -6,6 +6,7 @@ use App\Entity\Article;
 use App\Form\ArticleType;
 use App\Service\Slugify;
 use App\Repository\ArticleRepository;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -129,14 +130,23 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/{id}/favorite", name="article_favorite", methods={"GET","POST"})
+     * @param Request $request
+     * @param Article $article
+     * @param ObjectManager $manager
+     * @return Response
      */
-    public function favorite(Article $article): Response
+    public function favorite(Request $request, Article $article, ObjectManager $manager): Response
     {
+        if ($this->getUser()->getFavorites()->contains($article)) {
+            $this->getUser()->removeFavorite($article)   ;
+        }
+        else {
             $this->getUser()->addFavorite($article);
-            $this->getDoctrine()->getManager()->flush();
+        }
+        $manager->flush();
 
-            return $this->redirectToRoute('article_index', [
-                'id' => $article->getId(),
-            ]);
+        return $this->json([
+            'isFavorite' => $this->getUser()->isFavorite($article)
+        ]);
     }
 }

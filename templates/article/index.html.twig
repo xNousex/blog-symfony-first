@@ -17,6 +17,7 @@
                 <th>Titre</th>
                 <th>Description</th>
                 <th>Auteur</th>
+                <th>Favoris</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -30,6 +31,7 @@
                     {% endfor %}
                 </td>
                 <td>{{ article.title }}</td>
+
                 <td>{{ article.content }}</td>
                 <td>
                 {% if article.author %}
@@ -38,6 +40,7 @@
                     Anonyme
                 {% endif %}
                 </td>
+                <td><a>{{ app.user.isFavorite(article) ? '<i id="favorite" class="fas fa-heart"></i>' : '<i id="favorite" class="far fa-heart"></i>' }}</a></td>
                 <td>
                     <a class="btn btn-primary btn-sm w-100 m-1" href="{{ path('article_show', {'id': article.id}) }}">Voir ...</a>
                     {% if is_granted('ROLE_AUTHOR') %}
@@ -54,5 +57,8 @@
         </tbody>
     </table>
 </div>
+
+
+    </script>
 
 {% endblock %}

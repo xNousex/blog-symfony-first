@@ -6,11 +6,24 @@
     <h1 class="text-center m-3">Article</h1>
     <div class="container  p-0">
         <div class="card text-white bg-secondary mb-3">
-            <div class="card-header">{{ article.category.name }}</div>
-            <div class="card-body">
-                <h4 class="card-title">{{ article.title }}</h4>
-                <p class="card-text">{{ article.content }}</p>
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-md-10">
+                {{ article.category.name }}
+            </div>
+            <div class="col-md-1 ml-auto text-center">
                 <a onclick="addToFavorite()">{{ app.user.isFavorite(article) ? '<i id="favorite" class="fas fa-heart"></i>' : '<i id="favorite" class="far fa-heart"></i>' }}</a>
+            </div>
+        </div>
+            </div>
+            <div class="card-body">
+
+                        <h4 class="card-title">{{ article.title }}</h4>
+
+
+
+                <p class="card-text">{{ article.content }}</p>
+
             </div>
             <div class="card-footer">
                 {% if article.author %}
@@ -46,10 +59,17 @@
     <script>
         function addToFavorite() {
             fetch('{{ path('article_favorite', {'id': article.id}) }}')
-                .then(function(res) {
+                .then(response => response.json())
+                .then(json => {
                     let favoriteElt = document.getElementById('favorite');
-                    favoriteElt.classList.remove('far');
-                    favoriteElt.classList.add('fas');
+                    if (json.isFavorite) {
+                        favoriteElt.classList.remove('far');
+                        favoriteElt.classList.add('fas');
+                    }
+                    else {
+                        favoriteElt.classList.remove('fas');
+                        favoriteElt.classList.add('far');
+                    }
                 });
         }
     </script>
