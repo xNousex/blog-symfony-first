@@ -126,4 +126,17 @@ class ArticleController extends AbstractController
 
         return $this->redirectToRoute('article_index');
     }
+
+    /**
+     * @Route("/{id}/favorite", name="article_favorite", methods={"GET","POST"})
+     */
+    public function favorite(Article $article): Response
+    {
+            $this->getUser()->addFavorite($article);
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('article_index', [
+                'id' => $article->getId(),
+            ]);
+    }
 }

@@ -10,6 +10,7 @@
             <div class="card-body">
                 <h4 class="card-title">{{ article.title }}</h4>
                 <p class="card-text">{{ article.content }}</p>
+                <a onclick="addToFavorite()">{{ app.user.isFavorite(article) ? '<i id="favorite" class="fas fa-heart"></i>' : '<i id="favorite" class="far fa-heart"></i>' }}</a>
             </div>
             <div class="card-footer">
                 {% if article.author %}
@@ -41,5 +42,16 @@
         </div>
 
     </div>
+
+    <script>
+        function addToFavorite() {
+            fetch('{{ path('article_favorite', {'id': article.id}) }}')
+                .then(function(res) {
+                    let favoriteElt = document.getElementById('favorite');
+                    favoriteElt.classList.remove('far');
+                    favoriteElt.classList.add('fas');
+                });
+        }
+    </script>
 
 {% endblock %}
