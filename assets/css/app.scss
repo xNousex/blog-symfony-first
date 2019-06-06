@@ -14,3 +14,22 @@ body {
     height:auto;
 
 }
+
+a {
+  i {
+    cursor: pointer;
+    transition: 0.3s;
+    &:hover {
+      color: $warning;
+      transition: 0.3s;
+    }
+
+  }
+}
+
+.far {
+  color: $light;
+}
+.fas {
+  color: $success;
+}
