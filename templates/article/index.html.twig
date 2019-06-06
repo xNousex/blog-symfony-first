@@ -40,7 +40,13 @@
                     Anonyme
                 {% endif %}
                 </td>
-                <td><a>{{ app.user.isFavorite(article) ? '<i id="favorite" class="fas fa-heart"></i>' : '<i id="favorite" class="far fa-heart"></i>' }}</a></td>
+                <td><a onclick="addToFavorite('{{ path('article_favorite', {'id': article.id}) }}', {{ article.id }})">
+                    {% if  app.user.isFavorite(article) %}
+                        <i id="favorite{{ article.id}}" class="fas fa-heart"></i>
+                    {% else %}
+                        <i id="favorite{{article.id}}" class="far fa-heart"></i>
+                    {% endif %}
+                        </a></td>
                 <td>
                     <a class="btn btn-primary btn-sm w-100 m-1" href="{{ path('article_show', {'id': article.id}) }}">Voir ...</a>
                     {% if is_granted('ROLE_AUTHOR') %}
@@ -58,4 +64,21 @@
     </table>
 </div>
 
+    <script>
+        function addToFavorite(url, articleId) {
+            fetch(url)
+                .then(response => response.json())
+                .then(json => {
+                    let favoriteElt = document.getElementById('favorite' + articleId);
+                    if (json.isFavorite) {
+                        favoriteElt.classList.remove('far');
+                        favoriteElt.classList.add('fas');
+                    }
+                    else {
+                        favoriteElt.classList.remove('fas');
+                        favoriteElt.classList.add('far');
+                    }
+                });
+        }
+    </script>
 {% endblock %}
